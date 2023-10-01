@@ -13,11 +13,45 @@
 
 
 void delay(int numero);
+
 void aula_15_08(void);
 void aula_17_08(void);
 void aula_22_08(void);
 void aula_22_08_2(void);
 void aula_24_08(void);
+void aula_29_08(void);
+
+
+
+void aula_29_08(void){
+	Utility_Init();
+	RCC -> AHB1ENR |= (1 << 0) | (1 << 4); // Habilitando clock da porta A e E
+	GPIOA -> MODER |= (0b01 << 12);
+	GPIOE -> MODER &= ~(0b11 << 8); // configura PE4 como entrada (sempre que habilitar a entrada)
+	GPIOE -> PUPDR |= (0b01 <<8); // Liga o resistor de pull up em PE4 (para ligar o pull down seria 0b10)
+
+	while(1){
+		int leitura = GPIOE -> IDR & (1 << 4);
+		if(leitura){
+			GPIOA -> ODR &= ~(1 << 6);
+
+		}else{
+			GPIOA -> ODR |= (1 << 6);
+		}
+	}
+
+
+//	while(1){
+//		int leitura = GPIOE -> IDR & (1 << 4);
+//		while (leitura){
+//			GPIOA -> ODR &= ~(1 << 6); }
+//		while (leitura == 0){
+//			GPIOA -> ODR |= (1 << 6); }
+//
+//	}
+}
+
+
 
 
 // Questão de prova, guardar:
